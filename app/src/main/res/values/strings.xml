@@ -1,0 +1,61 @@
+<resources>
+    <string name="app_name">NEO-PI-R</string>
+    <string name="title_welcome">Welcome to NEO-PI-R</string>
+    <string name="title_signin">Login or Register to get started</string>
+    <string name="title_login">Login</string>
+    <string name="title_register">Register</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_welcome_back">Welcome Back!</string>
+    <string name="title_start_prompt">Login with your email to start</string>
+    <string name="title_email">Email</string>
+    <string name="title_password">Password</string>
+    <string name="title_forgot">Forgot your password?</string>
+    <string name="title_create_account">Create an account</string>
+    <string name="title_user_name">Username</string>
+    <string name="title_re_password">Password Confirmation</string>
+    <string name="title_gender">Gender</string>
+    <string name="text_male">Male</string>
+    <string name="title_female">Female</string>
+    <string name="msg_try_again">Oops something happened, try again later</string>
+    <string name="title_remember">Remember password</string>
+    <string name="msg_cant_create">Can\'t not create account</string>
+    <string name="msg_create_success">Account created successfully</string>
+    <string name="action_logout">Logout</string>
+    <string name="title_begin">Begin</string>
+    <string name="rule">
+        \t\t\tSau đây là các câu hỏi và các phương án trả lời bên cạnh.
+        Hãy lựa chọn con số phù hợp nhất đối với bạn.
+        Đừng mất quá nhiều thời gian cho một câu hỏi, hãy lựa chọn đáp án đầu tiên xuất hiện trong đầu.
+    </string>
+    <string name="title_answer">Phương án trả lời</string>
+    <string name="point_set">
+        0 = Hoàn toàn sai\n
+        1 = Sai\n
+        2 = Không đúng cũng không sai\n
+        3 = Đúng\n
+        4 = Hoàn toàn đúng
+    </string>
+    <string name="prompt_hello">
+        Hello, %1$s ^-^
+    </string>
+    <string name="prompt_first_quiz">1/60</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="prompt_answer_0">0. Hoàn toàn sai</string>
+    <string name="prompt_answer_1">1. Sai</string>
+    <string name="prompt_answer_2">2. Không đúng cũng không sai</string>
+    <string name="prompt_answer_3">3. Đúng</string>
+    <string name="prompt_answer_4">4. Hoàn toàn đúng</string>
+    <string name="title_result">Kết quả của bạn</string>
+    <string name="title_a">Dễ chấp nhận</string>
+    <string name="title_c">Tận tâm</string>
+    <string name="title_o">Cởi mở</string>
+    <string name="title_n">Nhiễu tâm</string>
+    <string name="title_e">Hướng ngoại</string>
+    <string name="action_suggest">Suggest</string>
+    <string name="prompt_low">Thấp</string>
+    <string name="prompt_medium">Trung bình</string>
+    <string name="prompt_high">Cao</string>
+
+</resources>
