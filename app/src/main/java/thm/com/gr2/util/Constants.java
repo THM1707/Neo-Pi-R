@@ -4,7 +4,8 @@ public class Constants {
     public static final String FRAGMENT_BUNDLE_QUIZ = "quiz";
     public static final String FRAGMENT_BUNDLE_NO = "quiz_no";
     // url
-    public static String END_POINT_URL = "http://192.168.1.228:3000";
+    public static String END_POINT_URL = "http://192.168.43.68:3000";
+//    public static String END_POINT_URL = "http://192.168.1.228:3000";
 
     //shared pref user
     public static String PREF_NAME_USER = "user_pref";
