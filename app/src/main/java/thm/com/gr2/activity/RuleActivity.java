@@ -109,4 +109,9 @@ public class RuleActivity extends AppCompatActivity implements View.OnClickListe
                 break;
         }
     }
+
+    @Override
+    public void onBackPressed() {
+        finish();
+    }
 }

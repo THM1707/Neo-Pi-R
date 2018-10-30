@@ -8,8 +8,12 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
@@ -32,6 +36,15 @@ public class QuizActivity extends AppCompatActivity implements QuizFragment.OnAn
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz);
+        Toolbar toolbar = findViewById(R.id.toolbar_quiz);
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayShowHomeEnabled(true);
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setDisplayShowTitleEnabled(false);
+            actionBar.setDisplayShowCustomEnabled(true);
+        }
         mSharedPreferences = getSharedPreferences(Constants.PREF_NAME_USER, Context.MODE_PRIVATE);
         mQuizList = (List<Quiz>) getIntent().getSerializableExtra("list");
         mPointMap = new HashMap<>();
@@ -47,7 +60,7 @@ public class QuizActivity extends AppCompatActivity implements QuizFragment.OnAn
         mViewPager = findViewById(R.id.vp_quiz);
         mPagerAdapter = new QuizPagerAdapter(getSupportFragmentManager(), mQuizList);
         mViewPager.setAdapter(mPagerAdapter);
-//        mViewPager.setPageTransformer(true, new ZoomOutPageTransformer());
+        //        mViewPager.setPageTransformer(true, new ZoomOutPageTransformer());
     }
 
     @Override
@@ -111,5 +124,33 @@ public class QuizActivity extends AppCompatActivity implements QuizFragment.OnAn
                 mPointMap.put("E", curPoint + point);
                 break;
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.item_logout:
+                SharedPreferences.Editor editor = mSharedPreferences.edit();
+                editor.clear();
+                editor.apply();
+                Intent intent = new Intent(this, SigninActivity.class);
+                startActivity(intent);
+                finish();
+                return true;
+            case android.R.id.home:
+                return super.onOptionsItemSelected(item);
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    public void showAlert(){
+        // TODO: 27/10/2018  
     }
 }
