@@ -2,8 +2,8 @@ package thm.com.gr2.activity;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.view.View;
 import thm.com.gr2.R;
 
@@ -29,7 +29,7 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
         }
     }
 
-    private void startActivity(Class<? extends Activity> clazz) {
+    private void startActivity(Class<? extends Activity> clazz){
         Intent intent = new Intent(this, clazz);
         this.startActivity(intent);
     }

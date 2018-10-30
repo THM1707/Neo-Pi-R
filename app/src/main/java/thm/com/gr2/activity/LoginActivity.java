@@ -70,7 +70,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                 mProgressBar.setVisibility(View.GONE);
 
                                 if (!response.isSuccessful()) {
-                                    Toast.makeText(LoginActivity.this, R.string.msg_login_fail,
+                                    Toast.makeText(LoginActivity.this, "Failed to login",
                                             Toast.LENGTH_SHORT).show();
                                 } else {
                                     SharedPreferences.Editor editor = mSharedPreferences.edit();
@@ -96,7 +96,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             @Override
                             public void onFailure(Call<LoginResponse> call, Throwable t) {
                                 mProgressBar.setVisibility(View.GONE);
-                                Toast.makeText(LoginActivity.this, R.string.msg_connection_timeout,
+                                Toast.makeText(LoginActivity.this, "Oops something happened",
                                         Toast.LENGTH_SHORT).show();
                             }
                         });

@@ -1,81 +1,39 @@
 package thm.com.gr2.activity;
 
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.Bundle;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.BaseExpandableListAdapter;
-import android.widget.ExpandableListView;
+import android.os.Bundle;
+import android.widget.TextView;
 import java.util.List;
 import thm.com.gr2.R;
-import thm.com.gr2.adapter.SuggestExpandableListAdapter;
-import thm.com.gr2.model.Suggest;
-import thm.com.gr2.util.Constants;
 
 public class SuggestActivity extends AppCompatActivity {
 
-    private List<Suggest> mAdviceList;
-    private ExpandableListView mExpandableListView;
-    private BaseExpandableListAdapter mAdapter;
+    private TextView mTextA;
+    private TextView mTextC;
+    private TextView mTextN;
+    private TextView mTextO;
+    private TextView mTextE;
+    private List<String> mAdviceList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_suggest);
-        Toolbar toolbar = findViewById(R.id.toolbar_suggesst);
-        setSupportActionBar(toolbar);
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setDisplayShowHomeEnabled(true);
-            actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setDisplayShowTitleEnabled(false);
-            actionBar.setDisplayShowCustomEnabled(true);
-        }
-        mAdviceList = (List<Suggest>) getIntent().getSerializableExtra("advice");
+        mAdviceList = (List<String>) getIntent().getSerializableExtra("advice");
         setupViews();
     }
 
     private void setupViews() {
-        mExpandableListView = findViewById(R.id.lv_suggest);
-        mAdapter = new SuggestExpandableListAdapter(this, mAdviceList);
-        mExpandableListView.setAdapter(mAdapter);
-    }
+        mTextA = findViewById(R.id.tv_advice_a);
+        mTextC = findViewById(R.id.tv_advice_c);
+        mTextN = findViewById(R.id.tv_advice_n);
+        mTextE = findViewById(R.id.tv_advice_e);
+        mTextO = findViewById(R.id.tv_advice_o);
+        mTextA.setText(mAdviceList.get(3));
+        mTextC.setText(mAdviceList.get(4));
+        mTextO.setText(mAdviceList.get(2));
+        mTextN.setText(mAdviceList.get(0));
+        mTextE.setText(mAdviceList.get(1));
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.item_logout:
-                SharedPreferences.Editor editor =
-                        getSharedPreferences(Constants.PREF_NAME_USER, Context.MODE_PRIVATE).edit();
-                editor.clear();
-                editor.apply();
-                Intent intent = new Intent(SuggestActivity.this, SigninActivity.class);
-                SuggestActivity.this.startActivity(intent);
-                finish();
-                return true;
-            case android.R.id.home:
-                super.onBackPressed();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-
-    public void redo(View view) {
-        Intent intent = new Intent(this, RuleActivity.class);
-        startActivity(intent);
-        finish();
     }
 }

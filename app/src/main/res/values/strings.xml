@@ -18,7 +18,7 @@
     <string name="title_female">Female</string>
     <string name="msg_try_again">Oops something happened, try again later</string>
     <string name="title_remember">Remember password</string>
-    <string name="msg_cant_create">Cannot create account</string>
+    <string name="msg_cant_create">Can\'t not create account</string>
     <string name="msg_create_success">Account created successfully</string>
     <string name="action_logout">Logout</string>
     <string name="title_begin">Begin</string>
@@ -39,6 +39,8 @@
         Hello, %1$s ^-^
     </string>
     <string name="prompt_first_quiz">1/60</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="prompt_answer_0">0. Hoàn toàn sai</string>
     <string name="prompt_answer_1">1. Sai</string>
@@ -55,11 +57,5 @@
     <string name="prompt_low">Thấp</string>
     <string name="prompt_medium">Trung bình</string>
     <string name="prompt_high">Cao</string>
-    <string name="suggest_prompt">Check out your suggestion</string>
-    <string name="action_redo">Do the test again</string>
-    <string name="msg_login_fail">Wrong email or password</string>
-    <string name="msg_connection_timeout">Connection timeout, please try again later!</string>
-    <string name="msg_unknow_error">Something happened, please try again later!</string>
-    <string name="action_refresh">Refresh</string>
 
 </resources>
