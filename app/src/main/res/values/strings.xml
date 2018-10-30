@@ -39,8 +39,6 @@
         Hello, %1$s ^-^
     </string>
     <string name="prompt_first_quiz">1/60</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="prompt_answer_0">0. Hoàn toàn sai</string>
     <string name="prompt_answer_1">1. Sai</string>
@@ -57,5 +55,6 @@
     <string name="prompt_low">Thấp</string>
     <string name="prompt_medium">Trung bình</string>
     <string name="prompt_high">Cao</string>
+    <string name="suggest_prompt">Check out you suggestion</string>
 
 </resources>

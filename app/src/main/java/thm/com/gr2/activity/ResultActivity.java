@@ -21,6 +21,7 @@ import thm.com.gr2.adapter.ResultRecyclerAdapter;
 import thm.com.gr2.model.Explain;
 import thm.com.gr2.model.Result;
 import thm.com.gr2.model.ResultResponse;
+import thm.com.gr2.model.Suggest;
 import thm.com.gr2.retrofit.AppServiceClient;
 import thm.com.gr2.util.Constants;
 
@@ -34,18 +35,8 @@ public class ResultActivity extends AppCompatActivity implements View.OnClickLis
     private TextView mTextO;
     private TextView mTextN;
     private TextView mTextE;
-    //    private TextView mTextResultA;
-    //    private TextView mTextResultC;
-    //    private TextView mTextResultO;
-    //    private TextView mTextResultN;
-    //    private TextView mTextResultE;
-    //    private TextView mTextNameA;
-    //    private TextView mTextNameC;
-    //    private TextView mTextNameO;
-    //    private TextView mTextNameN;
-    //    private TextView mTextNameE;
     private List<Result> mResultList;
-    private List<String> mAdviceList;
+    private List<Suggest> mAdviceList;
     private List<Explain> mExplainList;
     private ResultRecyclerAdapter mAdapter;
     private RecyclerView mRecycleResult;
@@ -76,7 +67,7 @@ public class ResultActivity extends AppCompatActivity implements View.OnClickLis
                             mResultList = response.body().getResults();
                             mAdviceList = new ArrayList<>();
                             for (Result r : mResultList) {
-                                mAdviceList.add(r.getAdvice());
+                                mAdviceList.add(new Suggest(r.getName(), r.getAdvice()));
                             }
                             showPoint();
                         }
@@ -102,16 +93,6 @@ public class ResultActivity extends AppCompatActivity implements View.OnClickLis
         mTextO = findViewById(R.id.tv_o);
         mTextN = findViewById(R.id.tv_n);
         mTextE = findViewById(R.id.tv_e);
-        //        mTextResultA = findViewById(R.id.tv_result_a);
-        //        mTextResultC = findViewById(R.id.tv_result_c);
-        //        mTextResultO = findViewById(R.id.tv_result_o);
-        //        mTextResultN = findViewById(R.id.tv_result_n);
-        //        mTextResultE = findViewById(R.id.tv_result_e);
-        //        mTextNameA = findViewById(R.id.tv_name_a);
-        //        mTextNameC = findViewById(R.id.tv_name_c);
-        //        mTextNameO = findViewById(R.id.tv_name_o);
-        //        mTextNameN = findViewById(R.id.tv_name_n);
-        //        mTextNameE = findViewById(R.id.tv_name_e);
         findViewById(R.id.bt_suggest).setOnClickListener(this);
     }
 
@@ -131,114 +112,87 @@ public class ResultActivity extends AppCompatActivity implements View.OnClickLis
         explainO.setName(mResultList.get(2).getName());
         explainN.setName(mResultList.get(0).getName());
         explainE.setName(mResultList.get(1).getName());
-        //        mTextNameA.setText(mResultList.get(3).getName());
-        //        mTextNameC.setText(mResultList.get(4).getName());
-        //        mTextNameO.setText(mResultList.get(2).getName());
-        //        mTextNameN.setText(mResultList.get(0).getName());
-        //        mTextNameE.setText(mResultList.get(1).getName());
 
         if (mGender == 0) {
             if (a < 18.1) {
                 mTextA.setText(R.string.prompt_low);
-                //                mTextResultA.setText(mResultList.get(3).getLow());
                 explainA.setContent(mResultList.get(3).getLow());
             } else if (a >= 18.1 && a <= 35.4) {
                 mTextA.setText(R.string.prompt_medium);
-                //                mTextResultA.setText(mResultList.get(3).getMedium());
                 explainA.setContent(mResultList.get(3).getMedium());
             } else {
                 mTextA.setText(R.string.prompt_high);
-                //                mTextResultA.setText(mResultList.get(3).getHigh());
                 explainA.setContent(mResultList.get(3).getHigh());
             }
 
             if (c < 20.3) {
                 mTextC.setText(R.string.prompt_low);
-                //                mTextResultC.setText(mResultList.get(4).getLow());
                 explainC.setContent(mResultList.get(4).getLow());
             } else if (c >= 20.3 && c <= 33.7) {
                 mTextC.setText(R.string.prompt_medium);
-                //                mTextResultC.setText(mResultList.get(4).getMedium());
                 explainC.setContent(mResultList.get(4).getMedium());
             } else {
                 mTextC.setText(R.string.prompt_high);
-                //                mTextResultC.setText(mResultList.get(4).getHigh());
                 explainC.setContent(mResultList.get(4).getHigh());
             }
 
             if (o < 23.5) {
                 mTextO.setText(R.string.prompt_low);
                 explainO.setContent(mResultList.get(2).getLow());
-                //                mTextResultO.setText(mResultList.get(2).getLow());
             } else if (o >= 23.5 && o <= 33.7) {
                 mTextO.setText(R.string.prompt_medium);
                 explainO.setContent(mResultList.get(2).getMedium());
-                //                mTextResultO.setText(mResultList.get(2).getMedium());
             } else {
                 mTextO.setText(R.string.prompt_high);
-                //                mTextResultO.setText(mResultList.get(2).getHigh());
                 explainO.setContent(mResultList.get(2).getHigh());
             }
 
             if (n < 19.8) {
                 mTextN.setText(R.string.prompt_low);
                 explainN.setContent(mResultList.get(0).getLow());
-                //                mTextResultN.setText(mResultList.get(0).getLow());
             } else if (n >= 19.8 && n <= 34.8) {
                 mTextN.setText(R.string.prompt_medium);
-                //                mTextResultN.setText(mResultList.get(0).getMedium());
                 explainN.setContent(mResultList.get(0).getMedium());
             } else {
                 mTextN.setText(R.string.prompt_high);
-                //                mTextResultN.setText(mResultList.get(0).getHigh());
                 explainN.setContent(mResultList.get(0).getHigh());
             }
 
             if (e < 23.5) {
                 mTextE.setText(R.string.prompt_low);
-                //                mTextResultE.setText(mResultList.get(1).getLow());
                 explainE.setContent(mResultList.get(1).getLow());
             } else if (e >= 23.5 && e <= 37.8) {
                 mTextE.setText(R.string.prompt_medium);
-                //                mTextResultE.setText(mResultList.get(1).getMedium());
                 explainE.setContent(mResultList.get(1).getMedium());
             } else {
                 mTextE.setText(R.string.prompt_high);
-                //                mTextResultE.setText(mResultList.get(1).getHigh());
                 explainE.setContent(mResultList.get(1).getHigh());
             }
         } else if (mGender == 1) {
             if (a < 19.1) {
                 mTextA.setText(R.string.prompt_low);
-                //                mTextResultA.setText(mResultList.get(3).getLow());
                 explainA.setContent(mResultList.get(3).getLow());
             } else if (a >= 19.1 && a <= 35.4) {
                 mTextA.setText(R.string.prompt_medium);
-                //                mTextResultA.setText(mResultList.get(3).getMedium());
                 explainA.setContent(mResultList.get(3).getMedium());
             } else {
                 mTextA.setText(R.string.prompt_high);
-                //                mTextResultA.setText(mResultList.get(3).getHigh());
                 explainA.setContent(mResultList.get(3).getHigh());
             }
 
             if (c < 22.4) {
                 mTextC.setText(R.string.prompt_low);
                 explainC.setContent(mResultList.get(4).getLow());
-                //                mTextResultC.setText(mResultList.get(4).getLow());
             } else if (c >= 22.4 && c <= 32.5) {
                 mTextC.setText(R.string.prompt_medium);
-                //                mTextResultC.setText(mResultList.get(4).getMedium());
                 explainC.setContent(mResultList.get(4).getMedium());
             } else {
                 mTextC.setText(R.string.prompt_high);
-                //                mTextResultC.setText(mResultList.get(4).getHigh());
                 explainC.setContent(mResultList.get(4).getHigh());
             }
 
             if (o < 22.4) {
                 mTextO.setText(R.string.prompt_low);
-                //                mTextResultO.setText(mResultList.get(2).getLow());
                 explainO.setContent(mResultList.get(2).getLow());
             } else if (o >= 22.4 && o <= 33.8) {
                 mTextO.setText(R.string.prompt_medium);
