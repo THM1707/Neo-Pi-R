@@ -1,11 +1,16 @@
 package thm.com.gr2.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -45,9 +50,18 @@ public class ResultActivity extends AppCompatActivity implements View.OnClickLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result);
+        Toolbar toolbar = findViewById(R.id.toolbar_result);
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayShowHomeEnabled(true);
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setDisplayShowTitleEnabled(false);
+            actionBar.setDisplayShowCustomEnabled(true);
+        }
         mSharedPreferences = getSharedPreferences(Constants.PREF_NAME_USER, MODE_PRIVATE);
         mGender = mSharedPreferences.getInt(Constants.USER_PREF_GENDER, -1);
-        mPointMap = (Map<String, Integer>) getIntent().getSerializableExtra("result");
+        mPointMap = (Map<String, Integer>) getIntent().getSerializableExtra(Constants.EXTRA_RESULT);
         mExplainList = new ArrayList<>();
 
         setupViews();
@@ -60,8 +74,7 @@ public class ResultActivity extends AppCompatActivity implements View.OnClickLis
                             Response<ResultResponse> response) {
                         findViewById(R.id.pr_result).setVisibility(View.GONE);
                         if (!response.isSuccessful()) {
-                            // TODO: 17/10/2018 change toast
-                            Toast.makeText(ResultActivity.this, "Something happened",
+                            Toast.makeText(ResultActivity.this, R.string.msg_unknow_error,
                                     Toast.LENGTH_SHORT).show();
                         } else {
                             mResultList = response.body().getResults();
@@ -76,7 +89,7 @@ public class ResultActivity extends AppCompatActivity implements View.OnClickLis
                     @Override
                     public void onFailure(Call<ResultResponse> call, Throwable t) {
                         findViewById(R.id.pr_result).setVisibility(View.GONE);
-                        Toast.makeText(ResultActivity.this, "Something happened",
+                        Toast.makeText(ResultActivity.this, R.string.msg_connection_timeout,
                                 Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -240,6 +253,32 @@ public class ResultActivity extends AppCompatActivity implements View.OnClickLis
                 intent.putExtra("advice", (Serializable) mAdviceList);
                 ResultActivity.this.startActivity(intent);
                 break;
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.item_logout:
+                SharedPreferences.Editor editor =
+                        getSharedPreferences(Constants.PREF_NAME_USER, Context.MODE_PRIVATE).edit();
+                editor.clear();
+                editor.apply();
+                Intent intent = new Intent(ResultActivity.this, SigninActivity.class);
+                ResultActivity.this.startActivity(intent);
+                finish();
+                return true;
+            case android.R.id.home:
+                super.onBackPressed();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
     }
 }

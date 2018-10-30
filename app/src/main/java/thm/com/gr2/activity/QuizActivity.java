@@ -3,6 +3,7 @@ package thm.com.gr2.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -14,20 +15,29 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import thm.com.gr2.R;
 import thm.com.gr2.fragment.QuizFragment;
 import thm.com.gr2.model.Quiz;
+import thm.com.gr2.model.QuizResponse;
+import thm.com.gr2.retrofit.AppServiceClient;
 import thm.com.gr2.util.Constants;
-import thm.com.gr2.widget.ZoomOutPageTransformer;
 
 public class QuizActivity extends AppCompatActivity implements QuizFragment.OnAnswerClickListener {
 
+    private ProgressBar mProgressBar;
     private SharedPreferences mSharedPreferences;
-    private List<Quiz> mQuizList;
+    private List<Quiz> mQuizList = new ArrayList<>();
     private PagerAdapter mPagerAdapter;
     private ViewPager mViewPager;
     private Map<String, Integer> mPointMap;
@@ -46,21 +56,25 @@ public class QuizActivity extends AppCompatActivity implements QuizFragment.OnAn
             actionBar.setDisplayShowCustomEnabled(true);
         }
         mSharedPreferences = getSharedPreferences(Constants.PREF_NAME_USER, Context.MODE_PRIVATE);
-        mQuizList = (List<Quiz>) getIntent().getSerializableExtra("list");
         mPointMap = new HashMap<>();
+        setNewPoint();
+        setupViews();
+        fetchData();
+    }
+
+    private void setNewPoint() {
         mPointMap.put("C", 0);
         mPointMap.put("A", 0);
         mPointMap.put("N", 0);
         mPointMap.put("O", 0);
         mPointMap.put("E", 0);
-        setupViews();
     }
 
     private void setupViews() {
+        mProgressBar = findViewById(R.id.pr_quiz);
         mViewPager = findViewById(R.id.vp_quiz);
         mPagerAdapter = new QuizPagerAdapter(getSupportFragmentManager(), mQuizList);
         mViewPager.setAdapter(mPagerAdapter);
-        //        mViewPager.setPageTransformer(true, new ZoomOutPageTransformer());
     }
 
     @Override
@@ -73,11 +87,39 @@ public class QuizActivity extends AppCompatActivity implements QuizFragment.OnAn
         } else if (index == mQuizList.size() - 1) {
             savePoint(type, point);
             Intent intent = new Intent(QuizActivity.this, ResultActivity.class);
-            // TODO: 17/10/2018 change this
-            intent.putExtra("result", (Serializable) mPointMap);
+            intent.putExtra(Constants.EXTRA_RESULT, (Serializable) mPointMap);
             QuizActivity.this.startActivity(intent);
             QuizActivity.this.finish();
         }
+    }
+
+    public void fetchData() {
+        String auth = mSharedPreferences.getString(Constants.USER_PREF_AUTH, "nothing");
+        AppServiceClient.getMyApiInstance(this)
+                .getQuizzes(auth)
+                .enqueue(new Callback<QuizResponse>() {
+                    @Override
+                    public void onResponse(@NonNull Call<QuizResponse> call,
+                            @NonNull Response<QuizResponse> response) {
+                        mProgressBar.setVisibility(View.GONE);
+                        if (response.isSuccessful()) {
+                            if (response.body() != null) {
+                                mQuizList = response.body().getQuizzes();
+                                ((QuizPagerAdapter) mPagerAdapter).setQuizList(mQuizList);
+                            }
+                        } else {
+                            Toast.makeText(QuizActivity.this, R.string.msg_unknow_error,
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<QuizResponse> call, Throwable t) {
+                        mProgressBar.setVisibility(View.GONE);
+                        Toast.makeText(QuizActivity.this, R.string.msg_connection_timeout,
+                                Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     private class QuizPagerAdapter extends FragmentStatePagerAdapter {
@@ -87,6 +129,11 @@ public class QuizActivity extends AppCompatActivity implements QuizFragment.OnAn
         QuizPagerAdapter(FragmentManager fm, List<Quiz> quizList) {
             super(fm);
             mQuizList = quizList;
+        }
+
+        public void setQuizList(List<Quiz> quizList) {
+            mQuizList = quizList;
+            notifyDataSetChanged();
         }
 
         @Override
@@ -128,7 +175,7 @@ public class QuizActivity extends AppCompatActivity implements QuizFragment.OnAn
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_quiz, menu);
         return true;
     }
 
@@ -143,14 +190,20 @@ public class QuizActivity extends AppCompatActivity implements QuizFragment.OnAn
                 startActivity(intent);
                 finish();
                 return true;
+            case R.id.item_refresh:
+                fetchData();
+                setNewPoint();
+                mViewPager.setCurrentItem(0);
+                return true;
             case android.R.id.home:
-                return super.onOptionsItemSelected(item);
+                super.onBackPressed();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
-    public void showAlert(){
+    public void showAlert() {
         // TODO: 27/10/2018  
     }
 }

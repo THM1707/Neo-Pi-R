@@ -8,14 +8,14 @@
     android:background="@color/color_background_main"
     >
     <FrameLayout
-        android:id="@+id/fr_advice"
+        android:id="@+id/fr_suggest"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         >
 
         <android.support.v7.widget.Toolbar
             xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/toolbar_advice"
+            android:id="@+id/toolbar_suggesst"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             />
@@ -31,7 +31,7 @@
     </FrameLayout>
     <TextView
         android:layout_margin="16dp"
-        android:layout_below="@id/fr_advice"
+        android:layout_below="@id/fr_suggest"
         android:id="@+id/tv_suggest_prompt"
         android:gravity="center"
         android:layout_width="match_parent"
@@ -45,5 +45,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/tv_suggest_prompt"
+        />
+    <Button
+        android:onClick="redo"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/register_button_bg"
+        android:text="@string/action_redo"
+        android:layout_margin="8dp"
         />
 </RelativeLayout>
