@@ -15,7 +15,7 @@
 
         <android.support.v7.widget.Toolbar
             xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/toolbar_login"
+            android:id="@+id/toolbar_quiz"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             />
@@ -43,4 +43,10 @@
             android:layout_height="0dp"
             android:layout_weight="1" />
     </LinearLayout>
+    <ProgressBar
+        android:id="@+id/pr_quiz"
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
 </RelativeLayout>
