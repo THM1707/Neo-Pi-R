@@ -74,11 +74,9 @@
                         <option name="values">
                           <map>
                             <entry key="assetSourceType" value="FILE" />
-                            <entry key="height" value="70" />
-                            <entry key="outputName" value="ic_robot" />
+                            <entry key="outputName" value="ic_refresh" />
                             <entry key="overrideSize" value="true" />
-                            <entry key="sourceFile" value="$USER_HOME$/Downloads/robot.svg" />
-                            <entry key="width" value="70" />
+                            <entry key="sourceFile" value="$USER_HOME$/Downloads/refresh.svg" />
                           </map>
                         </option>
                       </PersistentState>
