@@ -29,7 +29,7 @@
             />
 
     </FrameLayout>
-    <android.support.v4.widget.NestedScrollView
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/fr_result"
@@ -182,12 +182,82 @@
                 android:layout_marginTop="10dp"
                 android:orientation="vertical"
                 >
-                <android.support.v7.widget.RecyclerView
-                    android:nestedScrollingEnabled="false"
-                    android:id="@+id/rv_result"
+                <TextView
+                    android:id="@+id/tv_name_a"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:hint="@string/title_a"
+                    android:textSize="18sp"
                     />
+                <TextView
+                    android:id="@+id/tv_result_a"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:textSize="16sp"
+                    />
+                <TextView
+                    android:id="@+id/tv_name_c"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:hint="@string/title_c"
+                    android:textSize="18sp"
+                    />
+                <TextView
+                    android:id="@+id/tv_result_c"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:textSize="16sp"
+                    />
+                <TextView
+                    android:id="@+id/tv_name_o"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:hint="@string/title_o"
+                    android:textSize="18sp"
+                    />
+                <TextView
+                    android:id="@+id/tv_result_o"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:textSize="16sp"
+                    />
+                <TextView
+                    android:id="@+id/tv_name_n"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:hint="@string/title_n"
+                    android:textSize="18sp"
+                    />
+                <TextView
+                    android:id="@+id/tv_result_n"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:textSize="16sp"
+                    />
+                <TextView
+                    android:id="@+id/tv_name_e"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:hint="@string/title_e"
+                    android:textSize="18sp"
+                    />
+                <TextView
+                    android:id="@+id/tv_result_e"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:textSize="16sp"
+                    />
+
             </LinearLayout>
             <Button
                 android:id="@+id/bt_suggest"
@@ -199,7 +269,7 @@
                 android:text="@string/action_suggest"
                 />
         </LinearLayout>
-    </android.support.v4.widget.NestedScrollView>
+    </ScrollView>
     <ProgressBar
         android:id="@+id/pr_result"
         android:layout_width="wrap_content"

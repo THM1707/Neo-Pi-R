@@ -37,6 +37,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         setContentView(R.layout.activity_register);
         Toolbar toolbar = findViewById(R.id.toolbar_register);
         setSupportActionBar(toolbar);
+        mSharedPreferences = getPreferences(Context.MODE_PRIVATE);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayShowHomeEnabled(true);
@@ -44,7 +45,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             actionBar.setDisplayShowTitleEnabled(false);
             actionBar.setDisplayShowCustomEnabled(true);
         }
-        mSharedPreferences = getPreferences(Context.MODE_PRIVATE);
+
         setupView();
     }
 
@@ -98,7 +99,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                                 @Override
                                 public void onFailure(Call<RegisterResponse> call, Throwable t) {
                                     mProgressBar.setVisibility(View.GONE);
-                                    Toast.makeText(RegisterActivity.this, R.string.msg_connection_timeout,
+                                    Toast.makeText(RegisterActivity.this, R.string.msg_try_again,
                                             Toast.LENGTH_SHORT).show();
                                 }
                             });
