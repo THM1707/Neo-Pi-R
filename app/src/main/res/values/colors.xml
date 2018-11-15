@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#36393f</color>
-    <color name="colorPrimaryDark">#292A2D</color>
-    <color name="colorAccent">#7289DA</color>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#0080ff</color>
+    <color name="colorAccent">#009dff</color>
     <color name="color_background_main">#292A2D</color>
     <color name="color_transparent_grey">#7936393f</color>
     <color name="color_basic_grey">#36393f</color>
     <color name="color_light_grey">#7d8187</color>
     <color name="color_separator">#454950</color>
     <color name="color_white">#ffffff</color>
+    <color name="color_hint">#ffffff</color>
+    <color name="color_black">#000000</color>
+    <color name="signupColor">#066e8a</color>
 </resources>

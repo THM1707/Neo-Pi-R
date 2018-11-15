@@ -1,10 +1,8 @@
 package thm.com.gr2.activity;
 
-import android.content.Context;
-import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.EditText;
@@ -12,6 +10,7 @@ import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
+import org.json.JSONObject;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -24,11 +23,9 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     private EditText mTextEmail;
     private EditText mTextPassword;
     private EditText mTextName;
-    private EditText mTextConfirm;
     private RadioButton mRadioMale;
     private RadioButton mRadioFemale;
     private RadioGroup mRadioGroup;
-    private SharedPreferences mSharedPreferences;
     private ProgressBar mProgressBar;
 
     @Override
@@ -44,14 +41,12 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             actionBar.setDisplayShowTitleEnabled(false);
             actionBar.setDisplayShowCustomEnabled(true);
         }
-        mSharedPreferences = getPreferences(Context.MODE_PRIVATE);
         setupView();
     }
 
     private void setupView() {
         findViewById(R.id.bt_register).setOnClickListener(this);
         mTextEmail = findViewById(R.id.et_res_email);
-        mTextConfirm = findViewById(R.id.et_res_re_password);
         mTextPassword = findViewById(R.id.et_res_password);
         mTextName = findViewById(R.id.et_res_name);
         mRadioFemale = findViewById(R.id.rb_female);
@@ -72,12 +67,11 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                     String name = mTextName.getText().toString();
                     String email = mTextEmail.getText().toString();
                     String password = mTextPassword.getText().toString();
-                    String password_confirm = mTextConfirm.getText().toString();
                     int gender =
                             mRadioGroup.getCheckedRadioButtonId() == mRadioMale.getId() ? 0 : 1;
 
                     AppServiceClient.getMyApiInstance(this)
-                            .signup(name, email, password, password_confirm, gender)
+                            .signup(name, email, password, password, gender)
                             .enqueue(new Callback<RegisterResponse>() {
                                 @Override
                                 public void onResponse(Call<RegisterResponse> call,
@@ -89,17 +83,25 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                                                 .show();
                                         finish();
                                     } else {
-                                        Toast.makeText(RegisterActivity.this,
-                                                R.string.msg_cant_create, Toast.LENGTH_SHORT)
-                                                .show();
+                                        try {
+                                            JSONObject jObjError =
+                                                    new JSONObject(response.errorBody().string());
+                                            Toast.makeText(RegisterActivity.this,
+                                                    jObjError.getString("message"),
+                                                    Toast.LENGTH_LONG).show();
+                                        } catch (Exception e) {
+                                            Toast.makeText(RegisterActivity.this, e.getMessage(),
+                                                    Toast.LENGTH_LONG).show();
+                                        }
                                     }
                                 }
 
                                 @Override
                                 public void onFailure(Call<RegisterResponse> call, Throwable t) {
                                     mProgressBar.setVisibility(View.GONE);
-                                    Toast.makeText(RegisterActivity.this, R.string.msg_connection_timeout,
-                                            Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(RegisterActivity.this,
+                                            R.string.msg_connection_timeout, Toast.LENGTH_SHORT)
+                                            .show();
                                 }
                             });
                 }

@@ -1,85 +1,117 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_background_main"
     >
-    <FrameLayout
-        android:id="@+id/fr_rule"
+    <android.support.v7.widget.Toolbar
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/toolbar_rule"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@mipmap/back"
+        android:theme="@style/ToolbarTheme"
         >
-
-        <android.support.v7.widget.Toolbar
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/toolbar_rule"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            />
-
-        <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+        <TextView
+            android:id="@+id/toolbar_quiz"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:src="@drawable/logo_2"
-            tools:ignore="ContentDescription"
+            android:text="@string/title_rule"
+            android:textColor="@color/color_white"
+            android:textSize="22sp"
+            app:fontFamily="@font/alegreya_sans_bold"
             />
-
-    </FrameLayout>
+    </android.support.v7.widget.Toolbar>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/fr_rule"
-        android:layout_margin="8dp"
-        android:background="@drawable/linear"
+        android:layout_below="@+id/toolbar_rule"
+        android:gravity="center_horizontal"
         android:orientation="vertical"
+        android:padding="16dp"
         >
-        <LinearLayout
+        <TextView
+            android:id="@+id/tv_prompt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:textSize="22sp"
+            />
+
+        <TextView
+            android:id="@+id/tv_last_result"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:stateListAnimator="@animator/lift_on_touch"
+            android:text="@string/action_history"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="18sp"
+            android:visibility="gone"
+            />
+        <android.support.v7.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:orientation="vertical"
+            android:layout_height="wrap_content"
+            android:elevation="4dp"
+            android:padding="8dp"
+            app:cardCornerRadius="5dp"
             >
             <TextView
-                android:id="@+id/tv_prompt"
-                android:layout_margin="5dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="20sp"
-                />
-            <TextView
-                android:textStyle="italic"
                 android:layout_margin="10dp"
+                android:text="@string/rule"
                 android:textSize="18sp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/rule"/>
-            <TextView
-                android:layout_marginTop="20dp"
-                android:textSize="22sp"
-                android:gravity="center"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/title_answer"
                 />
-            <TextView
-                android:textSize="18sp"
-                android:layout_margin="10dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/point_set"
-                />
-        </LinearLayout>
-        <Button
-            android:id="@+id/bt_begin"
+        </android.support.v7.widget.CardView>
+        <TextView
             android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:layout_margin="8dp"
-            android:background="@drawable/login_button_bg"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="20dp"
             android:gravity="center"
-            android:text="@string/title_begin"
+            android:text="@string/title_answer"
+            android:textSize="26sp"
             />
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:elevation="4dp"
+            android:padding="8dp"
+            app:cardCornerRadius="5dp"
+            >
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="@string/point_set"
+                android:textSize="18sp"
+                />
+        </android.support.v7.widget.CardView>
     </LinearLayout>
+    <Button
+        android:id="@+id/bt_begin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="16dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/shapesignup"
+        android:padding="15dp"
+        android:shadowColor="@android:color/transparent"
+        android:text="@string/title_begin"
+        android:textColor="@color/color_white"
+        android:textSize="18sp"
+        />
+    <ProgressBar
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/pr_rule"
+        />
+
 </RelativeLayout>

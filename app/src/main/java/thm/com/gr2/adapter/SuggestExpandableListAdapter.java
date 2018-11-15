@@ -9,36 +9,36 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 import java.util.List;
 import thm.com.gr2.R;
-import thm.com.gr2.model.Suggest;
+import thm.com.gr2.model.Advice;
 
 public class SuggestExpandableListAdapter extends BaseExpandableListAdapter {
 
     private Context mContext;
-    private List<Suggest> mSuggestList;
+    private List<Advice> mAdviceList;
 
-    public SuggestExpandableListAdapter(Context context, List<Suggest> suggestList) {
+    public SuggestExpandableListAdapter(Context context, List<Advice> adviceList) {
         mContext = context;
-        mSuggestList = suggestList;
+        mAdviceList = adviceList;
     }
 
     @Override
     public int getGroupCount() {
-        return mSuggestList == null ? 0 : mSuggestList.size();
+        return mAdviceList == null ? 0 : mAdviceList.size();
     }
 
     @Override
     public int getChildrenCount(int i) {
-        return mSuggestList.get(i).getContent().split("\\|").length;
+        return mAdviceList.get(i).getContent().split("\\|").length;
     }
 
     @Override
     public Object getGroup(int i) {
-        return mSuggestList.get(i).getName();
+        return mAdviceList.get(i).getName();
     }
 
     @Override
     public Object getChild(int i, int i1) {
-        return mSuggestList.get(i).getContent().split("\\|")[i1];
+        return mAdviceList.get(i).getContent().split("\\|")[i1];
     }
 
     @Override

@@ -12,23 +12,26 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListView;
+import com.getkeepsafe.taptargetview.TapTarget;
+import com.getkeepsafe.taptargetview.TapTargetView;
 import java.util.List;
 import thm.com.gr2.R;
 import thm.com.gr2.adapter.SuggestExpandableListAdapter;
-import thm.com.gr2.model.Suggest;
+import thm.com.gr2.model.Advice;
 import thm.com.gr2.util.Constants;
 
 public class SuggestActivity extends AppCompatActivity {
 
-    private List<Suggest> mAdviceList;
+    private List<Advice> mAdviceList;
     private ExpandableListView mExpandableListView;
     private BaseExpandableListAdapter mAdapter;
+    private int lastExpandedPosition = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_suggest);
-        Toolbar toolbar = findViewById(R.id.toolbar_suggesst);
+        Toolbar toolbar = findViewById(R.id.toolbar_suggest);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -37,7 +40,15 @@ public class SuggestActivity extends AppCompatActivity {
             actionBar.setDisplayShowTitleEnabled(false);
             actionBar.setDisplayShowCustomEnabled(true);
         }
-        mAdviceList = (List<Suggest>) getIntent().getSerializableExtra("advice");
+        TapTargetView.showFor(this,
+                TapTarget.forView(findViewById(R.id.fab_redo), "Tap to do the quiz again")
+                        .outerCircleColor(R.color.color_basic_grey)
+                        .textColor(R.color.color_white)
+                        .targetRadius(60)
+                        .cancelable(true)
+                        .tintTarget(false)
+                        .transparentTarget(false));
+        mAdviceList = (List<Advice>) getIntent().getSerializableExtra("advice");
         setupViews();
     }
 
@@ -45,6 +56,12 @@ public class SuggestActivity extends AppCompatActivity {
         mExpandableListView = findViewById(R.id.lv_suggest);
         mAdapter = new SuggestExpandableListAdapter(this, mAdviceList);
         mExpandableListView.setAdapter(mAdapter);
+        mExpandableListView.setOnGroupExpandListener(i -> {
+            if (lastExpandedPosition != -1 && i != lastExpandedPosition) {
+                mExpandableListView.collapseGroup(lastExpandedPosition);
+            }
+            lastExpandedPosition = i;
+        });
     }
 
     @Override

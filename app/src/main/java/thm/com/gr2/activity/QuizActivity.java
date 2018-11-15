@@ -1,8 +1,10 @@
 package thm.com.gr2.activity;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -11,7 +13,7 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -33,7 +35,7 @@ import thm.com.gr2.model.QuizResponse;
 import thm.com.gr2.retrofit.AppServiceClient;
 import thm.com.gr2.util.Constants;
 
-public class QuizActivity extends AppCompatActivity implements QuizFragment.OnAnswerClickListener {
+public class QuizActivity extends AppCompatActivity implements View.OnClickListener {
 
     private ProgressBar mProgressBar;
     private SharedPreferences mSharedPreferences;
@@ -41,6 +43,8 @@ public class QuizActivity extends AppCompatActivity implements QuizFragment.OnAn
     private PagerAdapter mPagerAdapter;
     private ViewPager mViewPager;
     private Map<String, Integer> mPointMap;
+    private int currentPosition = 0;
+    private ProgressBar mProgressQuiz;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,17 +79,43 @@ public class QuizActivity extends AppCompatActivity implements QuizFragment.OnAn
         mViewPager = findViewById(R.id.vp_quiz);
         mPagerAdapter = new QuizPagerAdapter(getSupportFragmentManager(), mQuizList);
         mViewPager.setAdapter(mPagerAdapter);
+        CardView cardZero = findViewById(R.id.cv_zero);
+        CardView cardOne = findViewById(R.id.cv_one);
+        CardView cardTwo = findViewById(R.id.cv_two);
+        CardView cardThree = findViewById(R.id.cv_three);
+        CardView cardFour = findViewById(R.id.cv_four);
+        cardZero.setOnClickListener(this);
+        cardOne.setOnClickListener(this);
+        cardTwo.setOnClickListener(this);
+        cardThree.setOnClickListener(this);
+        cardFour.setOnClickListener(this);
+        mProgressQuiz = findViewById(R.id.pr_tab);
     }
 
-    @Override
-    public void onAnswerClicked(String type, int point, int index) {
-        if (index < mQuizList.size() - 1) {
-            int cur = mViewPager.getCurrentItem();
-            mViewPager.setCurrentItem(cur + 1);
+    public void onAnswerClicked(String type, int point) {
+        if (currentPosition < mQuizList.size() - 1) {
+            mViewPager.setCurrentItem(currentPosition + 1);
+            mProgressQuiz.setProgress(currentPosition + 2);
             savePoint(type, point);
+            currentPosition++;
             System.out.println(mPointMap.toString());
-        } else if (index == mQuizList.size() - 1) {
+        } else if (currentPosition == mQuizList.size() - 1) {
             savePoint(type, point);
+            String auth = mSharedPreferences.getString(Constants.USER_PREF_AUTH, "nothing");
+            AppServiceClient.getMyApiInstance(this)
+                    .savePoint(auth, mPointMap.get("A"), mPointMap.get("C"), mPointMap.get("O"),
+                            mPointMap.get("N"), mPointMap.get("E"))
+                    .enqueue(new Callback<Void>() {
+                        @Override
+                        public void onResponse(Call<Void> call, Response<Void> response) {
+
+                        }
+
+                        @Override
+                        public void onFailure(Call<Void> call, Throwable t) {
+
+                        }
+                    });
             Intent intent = new Intent(QuizActivity.this, ResultActivity.class);
             intent.putExtra(Constants.EXTRA_RESULT, (Serializable) mPointMap);
             QuizActivity.this.startActivity(intent);
@@ -106,6 +136,7 @@ public class QuizActivity extends AppCompatActivity implements QuizFragment.OnAn
                             if (response.body() != null) {
                                 mQuizList = response.body().getQuizzes();
                                 ((QuizPagerAdapter) mPagerAdapter).setQuizList(mQuizList);
+                                mProgressQuiz.setProgress(currentPosition + 1);
                             }
                         } else {
                             Toast.makeText(QuizActivity.this, R.string.msg_unknow_error,
@@ -122,6 +153,34 @@ public class QuizActivity extends AppCompatActivity implements QuizFragment.OnAn
                 });
     }
 
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.cv_zero:
+                Quiz currentQuiz = mQuizList.get(currentPosition);
+                onAnswerClicked(currentQuiz.getQuizType(), getPoint(currentQuiz.getMode(), 0));
+                break;
+            case R.id.cv_one:
+                currentQuiz = mQuizList.get(currentPosition);
+                onAnswerClicked(currentQuiz.getQuizType(), getPoint(currentQuiz.getMode(), 1));
+                break;
+            case R.id.cv_two:
+                currentQuiz = mQuizList.get(currentPosition);
+                onAnswerClicked(currentQuiz.getQuizType(), getPoint(currentQuiz.getMode(), 2));
+                break;
+            case R.id.cv_three:
+                currentQuiz = mQuizList.get(currentPosition);
+                onAnswerClicked(currentQuiz.getQuizType(), getPoint(currentQuiz.getMode(), 3));
+                break;
+            case R.id.cv_four:
+                currentQuiz = mQuizList.get(currentPosition);
+                onAnswerClicked(currentQuiz.getQuizType(), getPoint(currentQuiz.getMode(), 4));
+                break;
+            default:
+                break;
+        }
+    }
+
     private class QuizPagerAdapter extends FragmentStatePagerAdapter {
 
         private List<Quiz> mQuizList;
@@ -131,7 +190,7 @@ public class QuizActivity extends AppCompatActivity implements QuizFragment.OnAn
             mQuizList = quizList;
         }
 
-        public void setQuizList(List<Quiz> quizList) {
+        void setQuizList(List<Quiz> quizList) {
             mQuizList = quizList;
             notifyDataSetChanged();
         }
@@ -148,7 +207,7 @@ public class QuizActivity extends AppCompatActivity implements QuizFragment.OnAn
     }
 
     public void savePoint(String type, int point) {
-        int curPoint = 0;
+        int curPoint;
         switch (type) {
             case "C":
                 curPoint = mPointMap.get("C");
@@ -183,27 +242,73 @@ public class QuizActivity extends AppCompatActivity implements QuizFragment.OnAn
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.item_logout:
-                SharedPreferences.Editor editor = mSharedPreferences.edit();
-                editor.clear();
-                editor.apply();
-                Intent intent = new Intent(this, SigninActivity.class);
-                startActivity(intent);
-                finish();
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setMessage(R.string.msg_logout)
+                        .setTitle(R.string.msg_logout_title)
+                        .setPositiveButton(R.string.action_ok, (anInterface, i) -> {
+                            SharedPreferences.Editor editor = mSharedPreferences.edit();
+                            editor.clear();
+                            editor.apply();
+                            Intent intent = new Intent(this, SigninActivity.class);
+                            startActivity(intent);
+                            finish();
+                        })
+                        .setNegativeButton(R.string.action_cancel, null);
+                AlertDialog dialog = builder.create();
+                dialog.show();
                 return true;
             case R.id.item_refresh:
-                fetchData();
-                setNewPoint();
-                mViewPager.setCurrentItem(0);
+                AlertDialog.Builder rBuilder = new AlertDialog.Builder(this);
+                rBuilder.setMessage(R.string.msg_logout)
+                        .setTitle(R.string.msg_logout_title)
+                        .setPositiveButton(R.string.action_ok, (anInterface, i) -> {
+                            fetchData();
+                            setNewPoint();
+                            currentPosition = 0;
+                            mProgressQuiz.setProgress(1);
+                            mViewPager.setCurrentItem(0);
+                        })
+                        .setNegativeButton(R.string.action_cancel, null);
+                AlertDialog rDialog = rBuilder.create();
+                rDialog.show();
+
                 return true;
             case android.R.id.home:
-                super.onBackPressed();
+                onBackPressed();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
-    public void showAlert() {
-        // TODO: 27/10/2018  
+    @Override
+    public void onBackPressed() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(R.string.msg_logout)
+                .setTitle(R.string.msg_logout_title)
+                .setPositiveButton(R.string.action_ok, (anInterface, i) -> {
+                    super.onBackPressed();
+                    finish();
+                })
+                .setNegativeButton(R.string.action_cancel, null);
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    private int getPoint(int mode, int answerNo) {
+        switch (answerNo) {
+            case 0:
+                return mode == 0 ? 0 : 4;
+            case 1:
+                return mode == 0 ? 1 : 3;
+            case 2:
+                return 2;
+            case 3:
+                return mode == 0 ? 3 : 1;
+            case 4:
+                return mode == 0 ? 4 : 0;
+            default:
+                return -1;
+        }
     }
 }

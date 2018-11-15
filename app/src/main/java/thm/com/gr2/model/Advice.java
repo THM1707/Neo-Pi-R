@@ -2,14 +2,14 @@ package thm.com.gr2.model;
 
 import java.io.Serializable;
 
-public class Suggest implements Serializable {
+public class Advice implements Serializable {
     private String name;
     private String content;
 
-    public Suggest() {
+    public Advice() {
     }
 
-    public Suggest(String name, String content) {
+    public Advice(String name, String content) {
         this.name = name;
         this.content = content;
     }
