@@ -5,54 +5,57 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_background_main"
     >
-    <FrameLayout
-        android:id="@+id/fr_suggest"
+    <android.support.v7.widget.Toolbar
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/toolbar_suggest"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@mipmap/back"
+        android:theme="@style/ToolbarTheme"
         >
-
-        <android.support.v7.widget.Toolbar
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/toolbar_suggesst"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            />
-
-        <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:src="@drawable/logo_2"
-            tools:ignore="ContentDescription"
+            android:text="@string/title_suggest"
+            android:textColor="@color/color_white"
+            android:textSize="22sp"
+            app:fontFamily="@font/alegreya_sans_bold"
             />
+    </android.support.v7.widget.Toolbar>
 
-    </FrameLayout>
     <TextView
-        android:layout_margin="16dp"
-        android:layout_below="@id/fr_suggest"
         android:id="@+id/tv_suggest_prompt"
-        android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="22sp"
+        android:layout_below="@id/toolbar_suggest"
+        android:layout_margin="16dp"
+        android:gravity="center"
         android:text="@string/suggest_prompt"
+        android:textSize="22sp"
         />
     <ExpandableListView
-        android:animateLayoutChanges="true"
         android:id="@+id/lv_suggest"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/tv_suggest_prompt"
+        android:animateLayoutChanges="true"
+        android:childDivider="@color/color_light_grey"
+        android:divider="#000000"
+        android:dividerHeight="1dp"
+        android:padding="8dp"
         />
-    <Button
-        android:onClick="redo"
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_redo"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
         android:layout_alignParentBottom="true"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/register_button_bg"
-        android:text="@string/action_redo"
-        android:layout_margin="8dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="24dp"
+        android:layout_marginRight="24dp"
+        android:onClick="redo"
+        android:src="@drawable/ic_baseline_refresh_24px"
+        app:fabSize="normal"
         />
 </RelativeLayout>

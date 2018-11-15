@@ -1,122 +1,113 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_background_main"
+    android:background="@mipmap/back"
     >
 
-    <FrameLayout
-        android:id="@+id/fr_login"
+    <android.support.v7.widget.Toolbar
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/toolbar_login"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="?attr/actionBarSize"
+        android:theme="@style/ToolbarTheme"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/title_login"
+            android:textColor="@color/color_white"
+            android:textSize="22sp"
+            app:fontFamily="@font/alegreya_sans_bold"
+            />
+    </android.support.v7.widget.Toolbar>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/toolbar_login"
+        android:layout_margin="16dp"
+        android:orientation="vertical"
         >
 
-        <android.support.v7.widget.Toolbar
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/toolbar_login"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            />
-
         <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
             android:layout_gravity="center"
             android:src="@drawable/logo_2"
+            android:tint="@color/color_white"
             tools:ignore="ContentDescription"
             />
 
-    </FrameLayout>
-    <LinearLayout
-        android:layout_below="@+id/fr_login"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="8dp"
-        android:background="@drawable/linear"
-        android:orientation="vertical"
-        android:windowSoftInputMode="adjustResize"
-        >
-        <LinearLayout
+        <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:padding="16dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="24dp"
+            android:textColorHint="@color/color_hint"
             >
-            <TextView
+            <EditText
+                android:id="@+id/et_login_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:gravity="center"
-                android:text="@string/title_welcome_back"
+                android:backgroundTint="@color/color_hint"
+                android:hint="@string/title_email"
+                android:inputType="textEmailAddress"
                 android:textColor="@color/color_white"
-                android:textSize="20sp"
-                android:textStyle="bold"
+                android:textColorHint="@color/color_hint"
                 />
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="@string/title_start_prompt"
-                android:textColor="@color/color_light_grey"
-                android:textSize="12sp"
-                />
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:layout_marginTop="32dp"
-                >
-                <EditText
-                    android:id="@+id/et_login_email"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/title_email"
-                    android:inputType="textEmailAddress"
-                    android:textColor="@color/color_light_grey"
-                    android:textSize="12sp"
-                    />
-            </android.support.design.widget.TextInputLayout>
+        </android.support.design.widget.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:layout_marginTop="8dp"
+            android:textColorHint="@color/color_hint"
+            >
+            <EditText
+                android:id="@+id/et_login_password"
+
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="24dp"
-                android:layout_marginTop="8dp"
-                >
-                <EditText
-                    android:id="@+id/et_login_password"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/title_password"
-                    android:inputType="textPassword"
-                    android:textColor="@color/color_light_grey"
-                    android:textSize="12sp"
-                    />
-            </android.support.design.widget.TextInputLayout>
-            <CheckBox
-                android:id="@+id/cb_password"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/title_remember"/>
-        </LinearLayout>
+                android:backgroundTint="@color/color_white"
+                android:hint="@string/title_password"
+                android:inputType="textPassword"
+                android:textColor="@color/color_white"
+                android:textColorHint="@color/color_hint"
+                />
+        </android.support.design.widget.TextInputLayout>
+        <CheckBox
+            android:id="@+id/cb_password"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:buttonTint="@color/color_white"
+            android:text="@string/title_remember"
+            android:textColor="@color/color_white"
+            />
+
         <Button
             android:id="@+id/bt_login"
             android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:layout_margin="8dp"
-            android:background="@drawable/login_button_bg"
-            android:gravity="center"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/shapelogin"
+            android:padding="15dp"
+            android:shadowColor="@android:color/transparent"
             android:text="@string/title_login"
+            android:textSize="18sp"
             />
     </LinearLayout>
     <ProgressBar
-        android:visibility="gone"
         android:id="@+id/pr_login"
-        android:layout_centerInParent="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone"
         />
 </RelativeLayout>

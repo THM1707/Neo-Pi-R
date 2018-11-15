@@ -6,14 +6,16 @@ import android.content.SharedPreferences;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
+import com.getkeepsafe.taptargetview.TapTarget;
+import com.getkeepsafe.taptargetview.TapTargetView;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +28,7 @@ import thm.com.gr2.adapter.ResultRecyclerAdapter;
 import thm.com.gr2.model.Explain;
 import thm.com.gr2.model.Result;
 import thm.com.gr2.model.ResultResponse;
-import thm.com.gr2.model.Suggest;
+import thm.com.gr2.model.Advice;
 import thm.com.gr2.retrofit.AppServiceClient;
 import thm.com.gr2.util.Constants;
 
@@ -35,13 +37,8 @@ public class ResultActivity extends AppCompatActivity implements View.OnClickLis
     private Map<String, Integer> mPointMap;
     private SharedPreferences mSharedPreferences;
     private int mGender;
-    private TextView mTextA;
-    private TextView mTextC;
-    private TextView mTextO;
-    private TextView mTextN;
-    private TextView mTextE;
     private List<Result> mResultList;
-    private List<Suggest> mAdviceList;
+    private List<Advice> mAdviceList;
     private List<Explain> mExplainList;
     private ResultRecyclerAdapter mAdapter;
     private RecyclerView mRecycleResult;
@@ -59,6 +56,12 @@ public class ResultActivity extends AppCompatActivity implements View.OnClickLis
             actionBar.setDisplayShowTitleEnabled(false);
             actionBar.setDisplayShowCustomEnabled(true);
         }
+        TapTargetView.showFor(this,
+                TapTarget.forView(findViewById(R.id.rv_result), "Tap result to show explain")
+                        .outerCircleColor(R.color.color_basic_grey)
+                        .textColor(R.color.color_white)
+                        .drawShadow(true)
+                        .targetRadius(60));
         mSharedPreferences = getSharedPreferences(Constants.PREF_NAME_USER, MODE_PRIVATE);
         mGender = mSharedPreferences.getInt(Constants.USER_PREF_GENDER, -1);
         mPointMap = (Map<String, Integer>) getIntent().getSerializableExtra(Constants.EXTRA_RESULT);
@@ -80,7 +83,7 @@ public class ResultActivity extends AppCompatActivity implements View.OnClickLis
                             mResultList = response.body().getResults();
                             mAdviceList = new ArrayList<>();
                             for (Result r : mResultList) {
-                                mAdviceList.add(new Suggest(r.getName(), r.getAdvice()));
+                                mAdviceList.add(new Advice(r.getName(), r.getAdvice()));
                             }
                             showPoint();
                         }
@@ -98,14 +101,9 @@ public class ResultActivity extends AppCompatActivity implements View.OnClickLis
     private void setupViews() {
         mRecycleResult = findViewById(R.id.rv_result);
         mRecycleResult.setHasFixedSize(true);
-        mRecycleResult.setLayoutManager(new LinearLayoutManager(this));
-        mAdapter = new ResultRecyclerAdapter(mExplainList);
+        mRecycleResult.setLayoutManager(new GridLayoutManager(this, 2));
+        mAdapter = new ResultRecyclerAdapter(this, mExplainList);
         mRecycleResult.setAdapter(mAdapter);
-        mTextA = findViewById(R.id.tv_a);
-        mTextC = findViewById(R.id.tv_c);
-        mTextO = findViewById(R.id.tv_o);
-        mTextN = findViewById(R.id.tv_n);
-        mTextE = findViewById(R.id.tv_e);
         findViewById(R.id.bt_suggest).setOnClickListener(this);
     }
 
@@ -128,113 +126,143 @@ public class ResultActivity extends AppCompatActivity implements View.OnClickLis
 
         if (mGender == 0) {
             if (a < 18.1) {
-                mTextA.setText(R.string.prompt_low);
+                explainA.setName(mResultList.get(3).getName());
                 explainA.setContent(mResultList.get(3).getLow());
+                explainA.setRate(getResources().getString(R.string.prompt_low));
             } else if (a >= 18.1 && a <= 35.4) {
-                mTextA.setText(R.string.prompt_medium);
+                explainA.setName(mResultList.get(3).getName());
                 explainA.setContent(mResultList.get(3).getMedium());
+                explainA.setRate(getResources().getString(R.string.prompt_medium));
             } else {
-                mTextA.setText(R.string.prompt_high);
+                explainA.setName(mResultList.get(3).getName());
                 explainA.setContent(mResultList.get(3).getHigh());
+                explainA.setRate(getResources().getString(R.string.prompt_high));
             }
 
             if (c < 20.3) {
-                mTextC.setText(R.string.prompt_low);
+                explainC.setName(mResultList.get(4).getName());
                 explainC.setContent(mResultList.get(4).getLow());
+                explainC.setRate(getResources().getString(R.string.prompt_low));
             } else if (c >= 20.3 && c <= 33.7) {
-                mTextC.setText(R.string.prompt_medium);
+                explainC.setName(mResultList.get(4).getName());
                 explainC.setContent(mResultList.get(4).getMedium());
+                explainC.setRate(getResources().getString(R.string.prompt_medium));
             } else {
-                mTextC.setText(R.string.prompt_high);
+                explainC.setName(mResultList.get(4).getName());
                 explainC.setContent(mResultList.get(4).getHigh());
+                explainC.setRate(getResources().getString(R.string.prompt_high));
             }
 
             if (o < 23.5) {
-                mTextO.setText(R.string.prompt_low);
+                explainO.setName(mResultList.get(2).getName());
                 explainO.setContent(mResultList.get(2).getLow());
+                explainO.setRate(getResources().getString(R.string.prompt_low));
             } else if (o >= 23.5 && o <= 33.7) {
-                mTextO.setText(R.string.prompt_medium);
+                explainO.setName(mResultList.get(2).getName());
                 explainO.setContent(mResultList.get(2).getMedium());
+                explainO.setRate(getResources().getString(R.string.prompt_medium));
             } else {
-                mTextO.setText(R.string.prompt_high);
+                explainO.setName(mResultList.get(2).getName());
                 explainO.setContent(mResultList.get(2).getHigh());
+                explainO.setRate(getResources().getString(R.string.prompt_high));
             }
 
             if (n < 19.8) {
-                mTextN.setText(R.string.prompt_low);
+                explainN.setName(mResultList.get(0).getName());
                 explainN.setContent(mResultList.get(0).getLow());
+                explainN.setRate(getResources().getString(R.string.prompt_low));
             } else if (n >= 19.8 && n <= 34.8) {
-                mTextN.setText(R.string.prompt_medium);
+                explainN.setName(mResultList.get(0).getName());
                 explainN.setContent(mResultList.get(0).getMedium());
+                explainN.setRate(getResources().getString(R.string.prompt_medium));
             } else {
-                mTextN.setText(R.string.prompt_high);
+                explainN.setName(mResultList.get(0).getName());
                 explainN.setContent(mResultList.get(0).getHigh());
+                explainN.setRate(getResources().getString(R.string.prompt_high));
             }
 
             if (e < 23.5) {
-                mTextE.setText(R.string.prompt_low);
+                explainE.setName(mResultList.get(1).getName());
                 explainE.setContent(mResultList.get(1).getLow());
+                explainE.setRate(getResources().getString(R.string.prompt_low));
             } else if (e >= 23.5 && e <= 37.8) {
-                mTextE.setText(R.string.prompt_medium);
+                explainE.setName(mResultList.get(1).getName());
                 explainE.setContent(mResultList.get(1).getMedium());
+                explainE.setRate(getResources().getString(R.string.prompt_medium));
             } else {
-                mTextE.setText(R.string.prompt_high);
+                explainE.setName(mResultList.get(1).getName());
                 explainE.setContent(mResultList.get(1).getHigh());
+                explainE.setRate(getResources().getString(R.string.prompt_high));
             }
         } else if (mGender == 1) {
             if (a < 19.1) {
-                mTextA.setText(R.string.prompt_low);
+                explainA.setName(mResultList.get(3).getName());
                 explainA.setContent(mResultList.get(3).getLow());
+                explainA.setRate(getResources().getString(R.string.prompt_low));
             } else if (a >= 19.1 && a <= 35.4) {
-                mTextA.setText(R.string.prompt_medium);
+                explainA.setName(mResultList.get(3).getName());
                 explainA.setContent(mResultList.get(3).getMedium());
+                explainA.setRate(getResources().getString(R.string.prompt_medium));
             } else {
-                mTextA.setText(R.string.prompt_high);
+                explainA.setName(mResultList.get(3).getName());
                 explainA.setContent(mResultList.get(3).getHigh());
+                explainA.setRate(getResources().getString(R.string.prompt_high));
             }
 
             if (c < 22.4) {
-                mTextC.setText(R.string.prompt_low);
+                explainC.setName(mResultList.get(4).getName());
                 explainC.setContent(mResultList.get(4).getLow());
+                explainC.setRate(getResources().getString(R.string.prompt_low));
             } else if (c >= 22.4 && c <= 32.5) {
-                mTextC.setText(R.string.prompt_medium);
+                explainC.setName(mResultList.get(4).getName());
                 explainC.setContent(mResultList.get(4).getMedium());
+                explainC.setRate(getResources().getString(R.string.prompt_medium));
             } else {
-                mTextC.setText(R.string.prompt_high);
+                explainC.setName(mResultList.get(4).getName());
                 explainC.setContent(mResultList.get(4).getHigh());
+                explainC.setRate(getResources().getString(R.string.prompt_high));
             }
 
             if (o < 22.4) {
-                mTextO.setText(R.string.prompt_low);
+                explainO.setName(mResultList.get(2).getName());
                 explainO.setContent(mResultList.get(2).getLow());
+                explainO.setRate(getResources().getString(R.string.prompt_low));
             } else if (o >= 22.4 && o <= 33.8) {
-                mTextO.setText(R.string.prompt_medium);
+                explainO.setName(mResultList.get(2).getName());
                 explainO.setContent(mResultList.get(2).getMedium());
+                explainO.setRate(getResources().getString(R.string.prompt_medium));
             } else {
-                mTextO.setText(R.string.prompt_high);
+                explainO.setName(mResultList.get(2).getName());
                 explainO.setContent(mResultList.get(2).getHigh());
+                explainO.setRate(getResources().getString(R.string.prompt_high));
             }
 
             if (n < 22.6) {
-                mTextN.setText(R.string.prompt_low);
+                explainN.setName(mResultList.get(0).getName());
                 explainN.setContent(mResultList.get(0).getLow());
+                explainN.setRate(getResources().getString(R.string.prompt_low));
             } else if (n >= 22.6 && n <= 38.2) {
-                mTextN.setText(R.string.prompt_medium);
+                explainN.setName(mResultList.get(0).getName());
                 explainN.setContent(mResultList.get(0).getMedium());
+                explainN.setRate(getResources().getString(R.string.prompt_medium));
             } else {
-                mTextN.setText(R.string.prompt_high);
+                explainN.setName(mResultList.get(0).getName());
                 explainN.setContent(mResultList.get(0).getHigh());
+                explainN.setRate(getResources().getString(R.string.prompt_high));
             }
 
             if (e < 25.7) {
-                mTextE.setText(R.string.prompt_low);
+                explainE.setName(mResultList.get(1).getName());
                 explainE.setContent(mResultList.get(1).getLow());
+                explainE.setRate(getResources().getString(R.string.prompt_low));
             } else if (e >= 25.7 && e <= 39.8) {
-                mTextE.setText(R.string.prompt_medium);
+                explainE.setName(mResultList.get(1).getName());
                 explainE.setContent(mResultList.get(1).getMedium());
+                explainE.setRate(getResources().getString(R.string.prompt_medium));
             } else {
-                mTextE.setText(R.string.prompt_high);
+                explainE.setName(mResultList.get(1).getName());
                 explainE.setContent(mResultList.get(1).getHigh());
+                explainE.setRate(getResources().getString(R.string.prompt_high));
             }
         }
         mExplainList.add(explainA);

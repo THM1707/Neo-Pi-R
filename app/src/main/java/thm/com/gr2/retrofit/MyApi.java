@@ -6,6 +6,7 @@ import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
 import thm.com.gr2.model.LoginResponse;
+import thm.com.gr2.model.PointResponse;
 import thm.com.gr2.model.QuizResponse;
 import thm.com.gr2.model.RegisterResponse;
 import thm.com.gr2.model.ResultResponse;
@@ -25,4 +26,11 @@ public interface MyApi {
 
     @GET("results/all")
     Call<ResultResponse> getResults(@Header("Authorization") String auth);
+
+    @POST("points")
+    Call<Void> savePoint(@Header("Authorization") String auth, @Query("p_a") int a,
+            @Query("p_c") int c, @Query("p_o") int o, @Query("p_n") int n, @Query("p_e") int e);
+
+    @GET("point")
+    Call<PointResponse> getPoint(@Header("Authorization") String auth);
 }

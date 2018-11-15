@@ -8,12 +8,12 @@
     android:orientation="vertical"
     android:padding="10dp"
     tools:context=".fragment.QuizFragment"
+    android:gravity="center"
     >
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="match_parent"
         android:layout_marginBottom="10dp"
-        android:layout_weight="1"
         app:cardCornerRadius="5dp"
         >
         <LinearLayout
@@ -22,15 +22,6 @@
             android:padding="10dp"
             android:orientation="vertical"
             >
-            <TextView
-                android:id="@+id/tv_progress"
-                android:textSize="18sp"
-                android:gravity="center"
-                android:text="@string/prompt_first_quiz"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                />
-
             <TextView
                 android:padding="10dp"
                 android:textSize="18sp"
@@ -41,77 +32,4 @@
                 />
         </LinearLayout>
     </android.support.v7.widget.CardView>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        >
-        <Button
-            android:id="@+id/bt_answer_0"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:background="@drawable/register_button_bg"
-            android:gravity="left|center"
-            android:paddingEnd="0dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="0dp"
-            android:paddingStart="10dp"
-            android:text="@string/prompt_answer_0"
-            />
-        <Button
-            android:id="@+id/bt_answer_1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:background="@drawable/register_button_bg"
-            android:gravity="left|center"
-            android:paddingEnd="0dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="0dp"
-            android:paddingStart="10dp"
-            android:text="@string/prompt_answer_1"
-            />
-        <Button
-            android:id="@+id/bt_answer_2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:background="@drawable/register_button_bg"
-            android:gravity="left|center"
-            android:paddingEnd="0dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="0dp"
-            android:paddingStart="10dp"
-            android:text="@string/prompt_answer_2"
-            />
-        <Button
-            android:id="@+id/bt_answer_3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:background="@drawable/register_button_bg"
-            android:gravity="left|center"
-            android:paddingEnd="0dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="0dp"
-            android:paddingStart="10dp"
-            android:text="@string/prompt_answer_3"
-            />
-        <Button
-            android:id="@+id/bt_answer_4"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:background="@drawable/register_button_bg"
-            android:gravity="left|center"
-            android:paddingEnd="0dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="0dp"
-            android:paddingStart="10dp"
-            android:text="@string/prompt_answer_4"
-            />
-    </LinearLayout>
-
 </LinearLayout>

@@ -36,7 +36,7 @@ public class SplashActivity extends AppCompatActivity {
                         public void onResponse(Call<LoginResponse> call,
                                 Response<LoginResponse> response) {
                             if (!response.isSuccessful()) {
-                                Toast.makeText(SplashActivity.this, "Failed to login",
+                                Toast.makeText(SplashActivity.this, "Failed to login, please try again",
                                         Toast.LENGTH_SHORT).show();
                                 Intent intent =
                                         new Intent(SplashActivity.this, SigninActivity.class);

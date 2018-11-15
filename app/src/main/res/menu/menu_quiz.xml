@@ -8,7 +8,7 @@
         android:id="@+id/item_logout"
         android:title="@string/action_logout"/>
     <item
-        android:icon="@drawable/ic_refresh"
+        android:icon="@drawable/ic_baseline_refresh_24px"
         app:showAsAction="always"
         android:id="@+id/item_refresh"
         android:title="@string/action_refresh"/>
